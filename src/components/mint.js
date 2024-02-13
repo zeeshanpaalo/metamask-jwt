@@ -16,9 +16,9 @@ function Mint() {
       // todo: the contract address should be configurable
       const contract = new web3.eth.Contract(
         CustomERC20Abi,
-        "0xDa317C1d3E835dD5F1BE459006471aCAA1289068"
+        "0x09ECa92a84e4EE0533039C2D5fdC49106CE08789"
       );
-      // Note: suppossing the token uses 10^19 displacements
+      // Note: suppossing the token uses 10^18 displacements
       const mintAmountInWei = web3.utils.toWei(tokenAmount.toString(), "ether");
       // trigger mint function
       const result = await contract.methods
