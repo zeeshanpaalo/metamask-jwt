@@ -1,0 +1,29 @@
+.mint_container{
+
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    flex-direction: column;
+    padding: 0px 20px;
+    height: 75vh;
+    background-color: aliceblue;
+    justify-content: center;
+}
+.mint_container button{
+    cursor: pointer;
+    padding: 10px 10px;
+    background-color: #0376c9;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+}
+.mint_container button:hover{
+    background-color: #0376c9c7;
+}
+.mint_container input{
+    padding: 7px;
+    border-radius: 10px;
+    font-size: 16px;
+}

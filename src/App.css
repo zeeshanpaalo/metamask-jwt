@@ -1,0 +1,34 @@
+
+.app_container{
+
+}
+.list {
+    display: flex;
+    flex-direction: row;
+    gap: 36px;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.list li {
+    cursor: pointer;
+    position: relative;
+   
+}
+
+
+
+.list li.active {
+    text-decoration: none; /* Remove the default underline */
+    color: #0376c9;
+    font-weight: 500;
+}
+
+.main_component{
+    padding: 20px 10px;
+    height: 80vh;
+    /* border: 1px solid black; */
+}
+
+
