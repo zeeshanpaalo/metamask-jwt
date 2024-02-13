@@ -1,33 +1,33 @@
-const express = require('express');
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const { connection } = require("./db");
+
+const routes = require("./routes/index");
 
 const app = express();
+require("dotenv").config();
 
+const corsOptions = {
+  origin: true, //included origin as true
+  credentials: true, //included credentials as true
+};
+app.use(cors(corsOptions));
+app.options("*", cors()); // include before other routes
 
+app.use(express.static(path.join(__dirname, "build")));
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use(express.json());
 
-app.get('/nonce', async(req, res)=>{
-    const { publicAddress } = req.query;
-    if(!publicAddress) {
-        return res.status(403).send({ success: false, message: 'Required publicAddress'});
-    }
-    // check for existence of Public address in User.Model
-    // generate a random nonce and save to user and return to fronend.
-})
+app.use("/", routes);
 
-app.post('/login', async(req, res)=> {
-    // get signature, publickey
-    // fetch user.
-    // create message.
-    // verify signature
-    // create a JWT.
-    // return to the User.
-})
-
-app.get('/activity', async(req, res)=> {
-    // verify jwt and decode publiaddress
-    // fetch activity for the address
-    // return
-})
-
-app.listen(3001, () => {
-  console.log('Server is running on port 3001');
+connection(process.env.DB_URL).then(() => {
+  app.listen(3001, () => {
+    console.log("Server is running on port 3001");
+  });
 });
