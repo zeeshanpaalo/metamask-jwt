@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { connection } = require("./db");
+const { connectAndSubscribe } = require("./services/parser");
 
 const routes = require("./routes/index");
 
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use("/", routes);
 
 connection(process.env.DB_URL).then(() => {
+  connectAndSubscribe();
   app.listen(3001, () => {
     console.log("Server is running on port 3001");
   });

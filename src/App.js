@@ -21,25 +21,18 @@ function App() {
               className={activeTab === 0 ? "active" : ""}
               onClick={() => setActiveTab(0)}
             >
-              Mint
+              Buy/Transfer
             </li>
             <li
               className={activeTab === 1 ? "active" : ""}
               onClick={() => setActiveTab(1)}
-            >
-              Token
-            </li>
-            <li
-              className={activeTab === 2 ? "active" : ""}
-              onClick={() => setActiveTab(2)}
             >
               Activity
             </li>
           </ul>
         </div>
         {activeTab === 0 && <Mint />}
-        {activeTab === 1 && <Token />}
-        {activeTab === 2 && <Activity />}
+        {activeTab === 1 && <Activity />}
       </main>
       </Web3Provider>
     </div>

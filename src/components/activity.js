@@ -16,6 +16,7 @@ function Activity() {
             <th>To</th>
             <th>From</th>
             <th>Token</th>
+            <th>TX hash</th>
           </tr>
         </thead>
         <tbody>
@@ -25,6 +26,7 @@ function Activity() {
               <td>{item.to}</td>
               <td>{item.from}</td>
               <td>{item.tokenAddress}</td>
+              <td>{item.tx}</td>
             </tr>
           ))}
         </tbody>
