@@ -9,6 +9,7 @@ export const Web3Provider = ({ children }) => {
   const [web3, setWeb3] = useState(null);
   const [currentAccount, setCurrentAccount] = useState("");
   const [authToken, setAuthToken] = useState("");
+  const [userActivity, setUserActivity] = useState([]);
 
   const fetchNonce = async (publicKey) => {
     try {
@@ -107,6 +108,7 @@ export const Web3Provider = ({ children }) => {
       // fetchi api
       const activity = await fetchActivity(authToken);
       console.log(activity);
+      setUserActivity(activity)
     } catch (err) {
       console.log("error fetching user activity", err);
     }
@@ -130,6 +132,7 @@ export const Web3Provider = ({ children }) => {
         getConnectedAccount,
         authToken,
         getUserActivity,
+        userActivity
       }}
     >
       {children}
@@ -144,6 +147,7 @@ export const useWeb3 = () => {
     getConnectedAccount,
     authToken,
     getUserActivity,
+    userActivity
   } = useContext(Web3Context);
   if (!web3) {
     console.error("Web3Context not found!");
@@ -154,5 +158,6 @@ export const useWeb3 = () => {
     getConnectedAccount,
     authToken,
     getUserActivity,
+    userActivity
   };
 };
