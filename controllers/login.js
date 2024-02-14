@@ -1,4 +1,7 @@
+const { bufferToHex } = require("ethereumjs-util");
+const { recoverPersonalSignature } = require("eth-sig-util");
 const { UserModel } = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
 const getNonce = async (req, res) => {
   try {
@@ -35,12 +38,30 @@ const getNonce = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  //   // get signature, publickey
-  //   // fetch user.
-  //   // create message.
-  //   // verify signature
-  //   // create a JWT.
-  //   // return to the User.
+  const { signature, publicKey } = req.body;
+  // fetch user and nonce.
+  const user = await UserModel.findOne({ publicKey }).lean();
+  if (!user) {
+    return res.status(404).send({ success: false, message: "No User found" });
+  }
+  // synthesize a message
+  const message = `Nonce for one-time Login: ${user.nonce}`;
+  const msgBufferHex = bufferToHex(Buffer.from(message, "utf8"));
+  const address = recoverPersonalSignature({
+    data: msgBufferHex,
+    sig: signature,
+  });
+  if (address.toLowerCase() === publicKey.toLowerCase()) {
+    console.log("verified the signature");
+    const mySecret = `randomsecret`; // TODO: configurable
+    const token = jwt.sign({ publicKey }, mySecret, { expiresIn: "1h" });
+    return res.status(200).send({ success: true, message: token });
+  } else {
+    console.log("signature failed");
+    return res.status(401).send({
+      error: "Signature verification failed",
+    });
+  }
 };
 
 module.exports = { getNonce, loginUser };

@@ -30,8 +30,8 @@ function App() {
               Token
             </li>
             <li
-              className={activeTab === 3 ? "active" : ""}
-              onClick={() => setActiveTab(3)}
+              className={activeTab === 2 ? "active" : ""}
+              onClick={() => setActiveTab(2)}
             >
               Activity
             </li>
