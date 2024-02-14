@@ -2,6 +2,7 @@ const { bufferToHex } = require("ethereumjs-util");
 const { recoverPersonalSignature } = require("eth-sig-util");
 const { UserModel } = require("../models/Users");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const getNonce = async (req, res) => {
   try {
@@ -53,8 +54,7 @@ const loginUser = async (req, res) => {
   });
   if (address.toLowerCase() === publicKey.toLowerCase()) {
     console.log("verified the signature");
-    const mySecret = `randomsecret`; // TODO: configurable
-    const token = jwt.sign({ publicKey }, mySecret, { expiresIn: "1h" });
+    const token = jwt.sign({ publicKey }, process.env.SECRET, { expiresIn: "1h" });
     return res.status(200).send({ success: true, message: token });
   } else {
     console.log("signature failed");

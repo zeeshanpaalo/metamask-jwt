@@ -1,10 +1,13 @@
+import React, { useEffect } from "react";
 import { useWeb3 } from "../web3context";
 
-function Activity (){
-    const { web3, authToken } = useWeb3();
-    console.log("----------")
-    console.log(authToken);
-    return <h1>Activity</h1>
+function Activity() {
+  const { getUserActivity } = useWeb3();
+
+  useEffect(() => {
+    getUserActivity();
+  }, []);
+  return <h1>Activity</h1>;
 }
 
-export default Activity
+export default Activity;

@@ -37,6 +37,25 @@ export const Web3Provider = ({ children }) => {
     }
   };
 
+  const fetchActivity = async (authToken) => {
+    try {
+      console.log("inside fetching activiti");
+      console.log(authToken);
+
+      const baseUrl = "http://localhost:3001";
+      const response = await axios.get(`${baseUrl}/activity`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      console.log(response.data);
+      return response.data.message;
+    } catch (err) {
+      console.log("error fetching user activity");
+    }
+  };
+
   const signMessage = async (web3Instance, nonce) => {
     try {
       // Sign the message using personal_sign
@@ -83,6 +102,16 @@ export const Web3Provider = ({ children }) => {
     }
   };
 
+  const getUserActivity = async () => {
+    try {
+      // fetchi api
+      const activity = await fetchActivity(authToken);
+      console.log(activity);
+    } catch (err) {
+      console.log("error fetching user activity", err);
+    }
+  };
+
   useEffect(() => {
     if (window.ethereum) {
       connectToMetaMask();
@@ -95,7 +124,13 @@ export const Web3Provider = ({ children }) => {
 
   return (
     <Web3Context.Provider
-      value={{ web3, connectToMetaMask, getConnectedAccount, authToken }}
+      value={{
+        web3,
+        connectToMetaMask,
+        getConnectedAccount,
+        authToken,
+        getUserActivity,
+      }}
     >
       {children}
     </Web3Context.Provider>
@@ -103,10 +138,21 @@ export const Web3Provider = ({ children }) => {
 };
 
 export const useWeb3 = () => {
-  const { web3, connectToMetaMask, getConnectedAccount, authToken } =
-    useContext(Web3Context);
+  const {
+    web3,
+    connectToMetaMask,
+    getConnectedAccount,
+    authToken,
+    getUserActivity,
+  } = useContext(Web3Context);
   if (!web3) {
     console.error("Web3Context not found!");
   }
-  return { web3, connectToMetaMask, getConnectedAccount, authToken };
+  return {
+    web3,
+    connectToMetaMask,
+    getConnectedAccount,
+    authToken,
+    getUserActivity,
+  };
 };
